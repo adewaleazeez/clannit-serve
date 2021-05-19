@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <link rel="icon" type="image/png" sizes="16x16" href="http://wiseowl.dharansh.in/default/assets/demo/favicon.png">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Login</title>
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600%7CRoboto:400" rel="stylesheet" type="text/css">
+    <link href="{% static 'site/asset/vendors/material-icons/material-icons.css'%}" rel="stylesheet" type="text/css">
+    <link href="{% static 'site/asset/vendors/mono-social-icons/monosocialiconsfont.css'%}" rel="stylesheet" type="text/css">
+    <link href="{% static 'site/asset/vendors/feather-icons/feather.css'%}" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.7.0/css/perfect-scrollbar.min.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'site/asset/css/style.css'%}" rel="stylesheet" type="text/css">
+    <!-- Head Libs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+</head>
+
+<body class="body-bg-full profile-page" style="background-image: url({% static "site/home_page/img/slider/01.jpg" %})">
+    <div id="wrapper" class="row wrapper multi-step-signup">
+        {% block slider %} {% endblock %}
+        <div class="container-min-full-height d-flex justify-content-center align-items-center">
+            <div class="login-center">
+                {% block content %}{% endblock %}
+
+
+            </div>
+            <!-- /.login-center -->
+        </div>
+        <!-- /.d-flex -->
+    </div>
+    <!-- /.body-container -->
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{% static 'site/asset/js/material-design.js'%}"></script>
+    <script>
+        jQuery(document).ready(function($) {
+        			var el = $('.multi-step-form');
+        			el.each(function(){
+        				var $this = $(this),
+        						$stepsTab = $('.steps-tab[data-target="#' + $this.attr('id') + '"]');
+        				$this.find('.next-btn').on( "click", function(){
+        					$this.find('fieldset.active').removeClass('active').addClass('done').next('fieldset').addClass('active');
+        					$stepsTab.find('li.active').removeClass('active').addClass('done').next('li').addClass('active');
+        				});
+        				$this.find('.prev-btn').on( "click", function(){
+        					$this.find('fieldset.active').removeClass('active').prev('fieldset').addClass('active');
+        					$stepsTab.find('li.active').removeClass('active').removeClass('done').prev('li').addClass('active');
+        				});
+        			});
+                });
+
+                function homepage(){
+                    alert("GGCF");
+                }
+                
+                $("#subbtn").click(function() {
+                    data = {};
+                    data['first_name'] = $("#firstName").val();
+                    data['last_name'] = $("#lastName").val();
+                    data['email'] = $("#email").val();
+                    data['mobile_number'] = $("#phoneNumber").val();
+
+                    data['estatename'] = $("#estateName").val();
+                    data['address'] = $("#address").val();
+                    data['city'] = $("#city").val();
+                    data['state'] = $("#state").val();
+                    data['csrfmiddlewaretoken'] = $('input[name="csrfmiddlewaretoken"]').val()
+        
+                    if(data['first_name'].length == 0 || data['estatename'].length == 0
+                    || data['last_name'].length == 0 || data['address'].length == 0
+                    || data['email'].length == 0 || data['city'].length == 0
+                    || data['mobile_number'].length == 0 || data['state'].length == 0){
+                        alert("All fields are required")
+                    } 
+                    else{
+                        $.ajax({
+                            type: "POST",
+                            url: "/userEstateReg/",
+                            data: data,
+                            success : function(result) {
+                                console.log(result);
+                                window.location.href = "http://www.clannit.com/accounts/register/complete/";
+                            }
+                        }); 
+                    }
+                });
+    </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

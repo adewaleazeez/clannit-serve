@@ -1,0 +1,135 @@
+{% extends "site/base.html" %}
+{% load static %}
+
+{% block content %}
+<!--DashBoard Filler-->
+            <!-- Page Title Area -->
+            <div class="row page-title clearfix">
+                <div class="page-title-left">
+                    <h6 class="page-title-heading mr-0 mr-r-5">{{user.estate}}</h6>
+                    <p class="page-title-description mr-0 d-none d-md-inline-block">| Estate Admin Dashboard</p>
+                </div>
+                <!-- /.page-title-left -->
+                <div class="page-title-right d-none d-sm-inline-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Home</li>
+                    </ol>
+                </div>
+                <!-- /.page-title-right -->
+            </div>
+            <!-- /.page-title -->
+            <!-- =================================== -->
+            <!-- Building Table -->
+            <div class="col-md-12 widget-holder">
+                <div class="widget-bg">
+                    <div class="row page-title clearfix">
+                        <div class="widget-heading clearfix" align="left">
+                            <h5>Buildings</h5>
+                        </div>
+                        <div class="widget-heading clearfix" align="right">
+                            <a href="#" data-toggle="modal" data-target="#create_state"><button class="btn btn-xs btn-primary ripple"><i class="material-icons list-icon">perm_identity</i> <span>Add Building</span>
+                             </button></a>
+                        </div>
+                    </div>
+                    {%if suc_msg == False %}
+                    <div align="center" class="alert alert-danger">
+                        <p style="color:crimson !important">Building already exists</p>
+                    </div>
+                    {%endif%}
+                    <!-- /.widget-heading -->
+                    <div class="widget-body clearfix">
+                        <!--<table class="table" data-toggle="table" data-click-to-select="true" data-url="assets/js/bootstrap-table/bootstrap-table.json">-->
+                        <table class="table table-editable table-responsive" data-toggle="datatables">
+                            <thead>
+                                <tr>
+                                    <th data-field="state" data-radio="true">S/N</th>
+                                    <th data-field="forks_count">Building No</th>
+                                    <th data-field="stargazers_count">Street</th>
+                                    <th data-field="stargazers_count">Building Type</th>
+                                    <th data-field="stargazers_count">Estate</th>
+                                    <th data-field="forks_count">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% if buildings %}
+                                    {%for building, count in buildings%}
+                                    <tr>
+                                        <td>{{count}}</td>
+                                        <td>{{building.building_number}}</td>
+                                        <td>{{building.street}}</td>
+                                        {%if building.building_type == 1%}
+                                        <td>Multi Tenancy</td>
+                                        {%else%}
+                                        <td>Single Tenancy</td>
+                                        {%endif%}
+                                        <td>{{building.street.estate}}</td>
+                                        <td style="white-space: nowrap; width: 1%;">
+                                            <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+                                                <div class="btn-group btn-group-sm" style="float: none;">
+                                                    <a href="{% url 'site_mgt:update_building' pk=building.building_id %}"><button type="button" class="btn btn-sm btn-primary" style="float: none;"><span class="glyphicon glyphicon-pencil"></span></button></a>
+                                                    <a onclick="return confirm_click();" class="del_but" href="{% url 'site_mgt:delete_building' pk=building.building_id %}"><button type="button" class="btn btn-sm btn-danger" style="float: none;"><span class="glyphicon glyphicon-trash"></span></button></a>
+                                                </div>
+                                            </div>
+                                         </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.widget-body -->
+                </div>
+                <!-- /.widget-bg -->
+            </div>
+            <!-- /.widget-holder -->
+            <hr>
+            <!--Modal for Building Creation-->
+            <div id="create_state" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div class="modal-body">
+                            {% if all_streets %}
+                            <p align="center">Fill New Building Details</p>
+                            <form method="POST">{% csrf_token %}
+                                <div class="form-group">
+                                    <label for="id_street">*STREET</label>
+                                    <select name="street" id="id_street" class="form-control" required>
+                                        <option value="" selected>Select Street Name</option>
+                                    {% for street in all_streets %}
+                                        <option value="{{ street.street_id }}"> {{ street.street_name }} </option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_building_number">*BUILDING NUMBER</label>
+                                     <input class="form-control" type="text" required="" name="building_number" id="id_building_number">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_building_type">*BUILDING TYPE</label>
+                                    <select name="building_type" id="id_building_type" class="form-control" required>
+                                        <option value="" selected>Select Building Type</option>
+                                        <option value="1">Multi Tenancy</option>
+                                        <option value="0">Single Tenancy</option>
+                                    </select>
+                                </div>
+
+                                <div class="text-center mr-b-30 btn-list">
+                                    <button class="toast-visitor btn btn-rounded btn-success ripple" type="submit" >CREATE BUILDING</button>
+                                </div>
+                            </form>
+                            {%else%}
+                            <h5 align="center">Please Create A Street First</h5>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.widget-list -->
+
+{% endblock %}

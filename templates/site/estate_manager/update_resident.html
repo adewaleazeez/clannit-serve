@@ -1,0 +1,163 @@
+{% extends "site/base.html" %}
+
+{% block content %}
+            <div class="row page-title clearfix">
+                <div class="page-title-left">
+                    <h6 class="page-title-heading mr-0 mr-r-5">Add New Estate Resident</h6>
+                </div>
+                <!-- /.page-title-left -->
+                <div class="page-title-right d-none d-sm-inline-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'site_mgt:estate_manager_dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Add New Member</li>
+                    </ol>
+                </div>
+                <!-- /.page-title-right -->
+            </div>
+
+{% if suc_msg == 2 %}
+{% else %}
+{% if suc_msg == True %}
+
+<div class="alert alert-icon alert-success border-success alert-dismissible fade show" role="alert">
+<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+</button> <i class="material-icons list-icon">check_circle</i>  <strong>Success!</strong>  User was Succesfully Created and a mail sent containing login details</div>
+{% else %}
+{% if suc_msg == False %}
+     <div class="alert alert-icon alert-danger border-danger alert-dismissible fade show" role="alert">
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+   </button> <i class="material-icons list-icon">not_interested</i>  <strong>Error!</strong>  A Fatal Error Occurred. Please Ensure that the user does not exist before.
+</div>
+{% endif %}
+
+{% endif %}
+
+{% endif %}
+
+            <!-- /.page-title -->
+            <!-- =================================== -->
+            <!-- Different data widgets ============ -->
+            <!-- =================================== -->
+            <div class="widget-list">
+                <div class="row">
+                    <div class="col-md-12 widget-holder">
+                        <div class="widget-bg">
+                            <div class="widget-body clearfix">
+                                <h5 class="box-title mr-b-0">Edit Estate Resident</h5>
+                                <p class="text-muted"></p>
+                                <form class="form-material" method="POST">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-1">
+                                            <div class="form-group">
+                                                <select name="title" id="id_title" class="form-control" required>
+                                                    {% for title in all_titles %}
+                                                    <option value="{{ title.title_name }}">{{ title.title_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="form-group">
+                                                <input class="form-control" name="first_name" value="{{ resident.first_name }}" required id="first_name" placeholder="First Name" type="text">
+                                                <label for="first_name">First Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="form-group">
+                                                <input class="form-control" value="{{ resident.last_name }}" name="last_name" required id="last_name" placeholder="Last Name" type="text">
+                                                <label for="last_name">Last Name</label>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group form-control-icon">
+                                                <div class="input-group"><i class="material-icons list-icon">perm_device_information</i>
+                                                    <input class="form-control" value="{{ resident.mobile_number }}" name="mobile_number" required id="l32" placeholder="080xxxxxx" type="text">
+                                                </div>
+                                                <label for="l32">Mobile Number</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group form-control-icon">
+                                                <div class="input-group"><i class="material-icons list-icon">mail</i>
+                                                    <input class="form-control" name="email" value="{{ resident.email }}" required id="l32" placeholder="abc@gmail.com" type="email">
+                                                </div>
+                                                <label for="l32">Email</label>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group form-control-icon">
+                                                <select class="form form-control" name="gender" required>
+                                                    <option value="" >SELECT GENDER</option>
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group form-control-icon">
+                                                <select class="form form-control" name="role" id="role_select" required>
+                                                    <option value="" >SELECT ROLE</option>
+                                                    <option value="4" id="security_select">Security</option>
+                                                    <option value="3" id="resident_select">Resident</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="row col-lg-12" id="select_resident">
+                                            <div class="col-lg-12 row">
+                                               <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <select name="street" id="id_street3" class="form-control" required>
+                                                        <option value="" selected>Select street name</option>
+                                                    {% for street in all_streets %}
+                                                        <option value="{{ street.street_id }}"> {{ street.street_name }} </option>
+                                                    {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <select name="building" class="form-control" id="building_red" required>
+                                                            <option value="" selected>Select building</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <select name="apartment" id="apartment_red" class="form-control">
+                                                            <option value="NULL" selected>Select apartment</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div id="select_security">
+
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-primary" type="submit">Save Resident</button>
+                                    <button class="btn btn-outline-default" type="button">Cancel</button>
+
+                                </form>
+                            </div>
+                            <!-- /.widget-body -->
+                        </div>
+                        <!-- /.widget-bg -->
+                    </div>
+                    <!-- /.widget-holder -->
+                </div>
+                <!-- /.row -->
+            </div>
+
+{% endblock %}

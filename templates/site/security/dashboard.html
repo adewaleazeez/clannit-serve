@@ -1,0 +1,187 @@
+{% extends "site/base.html" %}
+{% load static %}
+
+{% block content %}
+<!--DashBoard Filler-->
+            <!-- Page Title Area -->
+            <div class="row page-title clearfix">
+                <div class="page-title-left">
+                    <h6 class="page-title-heading mr-0 mr-r-5">{{user.estate}}</h6>
+                    <p class="page-title-description mr-0 d-none d-md-inline-block">| Dashboard</p>
+                </div>
+                <!-- /.page-title-left -->
+                <div class="page-title-right d-none d-sm-inline-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Home</li>
+                    </ol>
+                </div>
+                <!-- /.page-title-right -->
+            </div>
+            <!-- /.page-title -->
+            <!-- =================================== -->
+            <!-- Different data widgets ============ -->
+            <!-- =================================== -->
+            <div class="widget-list row">
+
+            <div class="widget-bg ">
+                        <div class="widget-body col-md-12 ">
+                            <div class="row">
+                                 <div class="col-md-6"><button data-toggle="modal" data-target="#check_in" class="btn btn-block btn-primary ripple">CHECK IN VISITOR </button></div>
+                            <div class="col-md-6"><button data-toggle="modal" data-target="#check_out" class="btn btn-block btn-danger ripple">CHECK OUT VISITOR</button></div>
+
+                            </div>
+
+                            <!-- /.counter-w-info -->
+                        </div>
+                        <!-- /.widget-body -->
+                    </div>
+
+
+
+
+            </div>
+            <!-- /.widget-list -->
+<!--Modal for Check in Visitor-->
+<div id="check_in" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <div class="modal-body">
+                                            <div class="text-center my-3"><a href="ui-modals.html#"><span><img src="http://wiseowl.dharansh.in/default/assets/demo/logo-expand-dark.png" alt=""></span></a>
+                                            </div>
+                                            <p align="center">CHECK IN VISTOR</p>
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label for="username">*Unique Vistor Invite Code</label>
+                                                    <input class="form-control" type="text"  name="vistor_code_in" required="" placeholder="12E4">
+                                                </div>
+                                                <div class="text-center mr-b-30 btn-list">
+                                                    <button class="toast-success btn btn-rounded btn-success ripple" name="check_in" value="check_in" type="submit" >CHECK IN</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+<!--Modal for Check Out-->
+<div id="check_out" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <div class="modal-body">
+                                            <div class="text-center my-3"><a href="ui-modals.html#"><span><img src="http://wiseowl.dharansh.in/default/assets/demo/logo-expand-dark.png" alt=""></span></a>
+                                            </div>
+                                            <p align="center">CHECK OUT VISITOR</p>
+                                             <form method="POST">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label for="username">*Unique Vistor Invite Code</label>
+                                                    <input class="form-control" type="text"  name="vistor_code_out" required="" placeholder="12E4">
+                                                </div>
+                                                <div class="text-center mr-b-30 btn-list">
+                                                    <button name="check_out" value="check_out" class="toast-success btn btn-rounded btn-danger ripple" type="submit" >CHECK OUT</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+<hr>
+<!--Notification Alerts-->
+{% if error_check_in %}
+ <div class="alert alert-icon alert-danger border-danger alert-dismissible fade show" role="alert">
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+   </button> <i class="material-icons list-icon">not_interested</i>  <strong>Error!</strong>  The Vistor code doesn't exist or has been previously Checked In.
+</div>
+{% endif %}
+{% if error_check_out %}
+ <div class="alert alert-icon alert-danger border-danger alert-dismissible fade show" role="alert">
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+   </button> <i class="material-icons list-icon">not_interested</i>  <strong>Error!</strong>  The Vistor code doesn't exist or has been previously Checked Out.
+</div>
+{% endif %}
+{% if check_in %}
+<div class="alert alert-icon alert-success border-success alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button> <i class="material-icons list-icon">check_circle</i>  <strong>Success!</strong>  Visitor has been Checked in.</div>
+{% endif %}
+
+
+
+
+<div class="row">
+                    <div class="col-md-12 widget-holder">
+                        <div class="widget-bg">
+                            <div class="widget-heading clearfix">
+                                <h5>Estate Visitors for {{user.estate}}</h5>
+                            </div>
+                            <!-- /.widget-heading -->
+                            <div class="widget-body clearfix">
+                                <table class="table table-striped table-responsive" data-toggle="datatables">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Estate Resident Name</th>
+                                            <th>Vistors Name</th>
+                                            <th>Invite Code</th>
+                                            <th>Mobile Number</th>
+                                            <th>Date Created</th>
+                                            <th>Checked in</th>
+                                            <th>Checked Out</th>
+                                            <th>Checking in Date</th>
+                                            <th>Checking out Date</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                            {% if visitor_log %}
+                                            {% for member, count in visitor_log %}
+                                            <tr>
+                                            <td>{{count}}</td>
+                                            <td>{{member.whom_to_see.first_name}} {{member.whom_to_see.last_name}}</td>
+                                            <td>{{member.vistor_first_name}} {{member.vistor_last_name}}</td>
+                                            <td>{{member.vistor_unique_code}}</td>
+                                            <td>{{member.whom_to_see.mobile_number}}</td>
+                                            <td>{{member.date_created}}</td>
+                                             {% if member.checked_in == True %}
+                                             <td><i class="feather feather-thumbs-up list-icon"></i></td>
+                                             {% else %}
+                                             <td><i class="feather feather-thumbs-down list-icon"></i></td>
+                                             {% endif %}
+                                             {% if member.checked_out == True %}
+                                             <td><i class="feather feather-thumbs-up list-icon"></i></td>
+                                             {% else %}
+                                             <td><i class="feather feather-thumbs-down list-icon"></i></td>
+                                             {% endif %}
+                                            <td>{{member.checked_in_date}}</td>
+                                            <td>{{member.checked_out_date}}</td>
+
+
+
+
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.widget-body -->
+                        </div>
+                        <!-- /.widget-bg -->
+                    </div>
+                    <!-- /.widget-holder -->
+                </div>
+
+            <!-- /.widget-list -->
+
+
+{% endblock %}

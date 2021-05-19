@@ -1,0 +1,348 @@
+{% extends "site/base.html" %}
+{% load static %}
+
+{% block content %}
+<!--DashBoard Filler-->
+            <!-- Page Title Area -->
+            <div class="row page-title clearfix">
+                <div class="page-title-left">
+                    <h6 class="page-title-heading mr-0 mr-r-5">{{user.estate}}</h6>
+                    <p class="page-title-description mr-0 d-none d-md-inline-block">| Dashboard</p>
+                </div>
+                <!-- /.page-title-left -->
+                <div class="page-title-right d-none d-sm-inline-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Home</li>
+                    </ol>
+                </div>
+                <!-- /.page-title-right -->
+            </div>
+            <!-- /.page-title -->
+            <!-- =================================== -->
+            <!-- Different data widgets ============ -->
+            <!-- =================================== -->
+            <div class="widget-list row">
+                <div class="widget-holder widget-sm col-md-3 widget-full-height">
+                        <div class="widget-bg">
+                            <div class="widget-body">
+                                <div class="counter-w-info media">
+                                    <div class="media-body">
+                                        <p class="text-muted mr-b-5" style="color:#544848 !important;">Residents</p><span class="counter-title color-purple"><span class="counter">{{estate_members}}</span> </span>
+                                        <!-- /.counter-title -->
+                                        <div style="margin-top: 15px"><span data-toggle="sparklines" data-height="15" data-bar-width="3" data-type="bar" data-chart-range-min="0" data-bar-spacing="3" data-bar-color="blue"><!-- 2,4,5,3,2,3,5,3,2,3,5,4,2 --></span>
+                                        </div>
+                                    </div>
+                                    <!-- /.media-body -->
+                                    <div class="pull-right align-self-center"><i class="list-icon feather feather-user bg-blue"></i>
+                                    </div>
+                                </div>
+                                <!-- /.counter-w-info -->
+                            </div>
+                            <!-- /.widget-body -->
+                        </div>
+                        <!-- /.widget-bg -->
+                </div>
+                <!-- /.widget-holder -->
+                <div class="widget-holder widget-sm col-md-3 widget-full-height">
+                    <div class="widget-bg">
+                        <div class="widget-body">
+                            <div class="counter-w-info media">
+                                <div class="media-body">
+                                    <p class="text-muted mr-b-5" style="color:#544848 !important;">Repair Request</p><span class="counter-title color-purple"><span class="counter">0</span> </span>
+                                    <!-- /.counter-title -->
+                                    <div style="margin-top: 15px"><span data-toggle="sparklines" data-height="15" data-bar-width="3" data-type="bar" data-chart-range-min="0" data-bar-spacing="3" data-bar-color="purple"><!-- 2,4,5,3,2,3,5,3,2,3,5,4,2 --></span>
+                                    </div>
+                                </div>
+                                <!-- /.media-body -->
+                                <div class="pull-right align-self-center"><i class="list-icon feather feather-briefcase bg-purple"></i>
+                                </div>
+                            </div>
+                            <!-- /.counter-w-info -->
+                        </div>
+                        <!-- /.widget-body -->
+                    </div>
+                    <!-- /.widget-bg -->
+                </div>
+                <!-- /.widget-holder -->
+                <div class="widget-holder widget-sm col-md-3 widget-full-height">
+                    <div class="widget-bg">
+                        <div class="widget-body">
+                            <div class="counter-w-info media">
+                                <div class="media-body">
+                                    <p class="text-muted mr-b-5" style="color:#544848 !important;">Emergency Reports</p><span class="counter-title color-red"><span class="counter">0</span> </span>
+                                    <!-- /.counter-title -->
+                                    <div style="margin-top: 15px"><span data-toggle="sparklines" data-height="15" data-bar-width="3" data-type="bar" data-chart-range-min="0" data-bar-spacing="3" data-bar-color="red"><!-- 2,4,5,3,2,3,5,3,2,3,5,4,2 --></span>
+                                    </div>
+                                </div>
+                                <!-- /.media-body -->
+                                <div class="pull-right align-self-center"><i class="list-icon feather feather-x-circle bg-danger"></i>
+                                </div>
+                            </div>
+                            <!-- /.counter-w-info -->
+                        </div>
+                        <!-- /.widget-body -->
+                    </div>
+                    <!-- /.widget-bg -->
+                </div>
+                <!-- /.widget-holder -->
+                <div class="widget-holder widget-sm col-md-3 widget-full-height">
+                    <div class="widget-bg">
+                        <div class="widget-body">
+                            <div class="counter-w-info media">
+                                <div class="media-body">
+                                    <p class="text-muted mr-b-5" style="color:#544848 !important;">Utility Payment</p><span class="counter-title color-green"><span class="counter">0</span> </span>
+                                    <div style="margin-top: 15px"><span data-toggle="sparklines" data-height="15" data-bar-width="3" data-type="bar" data-chart-range-min="0" data-bar-spacing="3" data-bar-color="#008000"><!-- 2,4,5,3,2,3,5,3,2,3,5,4,2 --></span>
+                                    </div>
+                                    <!-- /.counter-title -->
+
+                                </div>
+                                <!-- /.media-body -->
+                                <div class="pull-right align-self-center"><i class="list-icon feather feather-clock bg-green"></i>
+                                </div>
+                            </div>
+                            <!-- /.counter-w-info -->
+                        </div>
+                        <!-- /.widget-body -->
+                    </div>
+                    <!-- /.widget-bg -->
+                </div>
+                <!-- /.widget-holder -->
+
+            </div>
+            <!-- /.widget-list -->
+            <hr>
+            <input type="hidden" id="estate_id" name="estate_id" value="{{user.estate_id}}">
+            <input type="hidden" value="{{user.user_id}}" id="user_id">
+            <input class="form-control" type="hidden" id="estatename" name="initial_estate_id" disabled value="{{user.estate}}">
+            {% if user.profile_status == 0 %}
+                <div id="first_visit" class="modal fade show" tabindex="-1" role="dialog" style="display: block; padding-right: 17px;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <div class="modal-body">
+                                <p align="center" style="color:#544848 !important;">CHANGE PASSWORD</p>
+                                <form method="POST" class="input-has-value">
+                                    <!---->
+                                    {% csrf_token %}
+                                    <div class="form-group mr-b-30">
+                                        <label for="password1">*Password</label>
+                                        <input class="form-control" type="password" required="" name="password1" id="password1">
+                                    </div>
+                                    <div class="form-group mr-b-30 input-has-value">
+                                        <label for="password2">*Confirm Password</label>
+                                        <input class="form-control" type="password" required="" name="password2" id="password2">
+                                        
+                                    </div>
+                                </form>
+                                    <div class="text-center mr-b-30 btn-list">
+                                        <button id="password_change" class="toast-visitor btn btn-rounded btn-success ripple" type="button">SAVE</button>
+                                    </div>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            {% else %}
+                <!-- Modal -->
+                <div class="modal fade" id="first_visit1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">QUICK SETUP</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Smart Wizard HTML -->
+                                <div id="smartwizard">
+                                    <ul>
+                                        <li><a href="#step-1">Create Streets<br></a></li>
+                                        <li><a href="#step-2">Create Buildings<br></a></li>
+                                        <li><a href="#step-3">Create Apartments<br></a></li>
+                                        <li><a href="#step-4">Create Resident<br></a></li>
+                                    </ul>
+
+                                    <div>
+                                        <div id="step-1" class="">
+                                            <form method="POST"><br>
+                                                <!--{{form1.as_p}}-->
+                                                {% csrf_token %}
+                                                <p id="suc_msg1" style="display:none" align="center"></p>
+                                                <label for="streetname">*Street Name</label>&nbsp;&nbsp;&nbsp;<img id="loader" style="display:none" src="{% static "site/asset/img/ajax-loader.gif" %}"><br>
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" required name="street_name" id="streetname" placeholder="Enter street name"> 
+                                                    <span class="input-group-btn"><a id="addstreet" class="btn btn-primary" href="javascript: void(0);">Save Street</a></span>
+                                                </div><br><br>
+                                            </form>
+                                        </div>
+                                        <div id="step-2" class=""><br>
+                                            <form method="POST">{% csrf_token %}
+                                                <p id="suc_msg2" style="display:none" align="center"></p>
+                                                <div class="form-group">
+                                                    <label for="id_street1">*STREET</label>&nbsp;&nbsp;&nbsp;<img class="loader" style="display:none" src="{% static "site/asset/img/ajax-loader.gif" %}"><br>
+                                                    <select name="street" id="id_street1" class="form-control id_street1" required>
+                                                        <option value="" selected>Please create a street first</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="id_building_number">*BUILDING NUMBER</label>
+                                                        <input class="form-control" type="text" required="" name="building_number" id="id_building_number">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="id_building_type">*BUILDING TYPE</label>
+                                                    <select name="building_type" id="id_building_type" class="form-control" required>
+                                                        <option value="" selected>Select Building Type</option>
+                                                        <option value="1">Multi Tenancy</option>
+                                                        <option value="0">Single Tenancy</option>
+                                                    </select>
+                                                </div>
+                
+                                                <div class="text-center mr-b-30 btn-list">
+                                                    <button id="addbuilding" class="toast-visitor btn btn-primary ripple" type="button">Save Building</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="step-3" class=""><br>
+                                            <form method="POST">
+                                                <!--{{form3.as_p}}-->
+                                                {% csrf_token %}
+                                                <p id="suc_msg3" style="display:none" align="center"></p>
+                                                <div class="form-group">
+                                                    <label for="id_street">*STREET</label>
+                                                    <select name="street" id="id_street2" class="form-control id_street1" required>
+                                                        <option value="" selected>Select street</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="id_building">*BUILDING</label>
+                                                    &nbsp;&nbsp;&nbsp;<img id="loaderb" style="display:none" src="{% static "site/asset/img/ajax-loader.gif" %}"><br>
+                
+                                                    <select name="building" class="form-control" required id="id_building2">
+                                                        <option value="" selected>Select Building</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group" id="apartment_id">
+                                                    <label for="id_apartment">*APARTMENT NUMBER</label>
+                                                        <input class="form-control" type="text" required="" name="apartment_number" id="id_apartment_number">
+                                                </div>
+                                                <div class="text-center mr-b-30 btn-list">
+                                                    <button id="addapartment" class="toast-visitor btn btn-primary ripple" type="button" >Save Apartment</button>
+                                                    &nbsp;&nbsp;&nbsp;<img id="loaderc" style="display:none" src="{% static 'site/asset/img/ajax-loader.gif' %}"><br>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="step-4">
+                                            <form method="POST">
+                                                {% csrf_token %}<br>
+                                                <p id="suc_msg4" style="display:none" align='center'></p><br>
+                                                <div class="row">
+                                                    <div class="form-group col-sm-2">
+                                                        <label for="title">*TITLE</label>
+                                                        <select name="title" id="title_resd" class="form-control" required>
+                                                            {% for title in all_titles %}
+                                                            <option value="{{ title.title_name }}">{{ title.title_name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-5">
+                                                        <label for="title">*FIRST NAME</label>
+                                                        <input class="form-control" type="text" required="" name="first_name" id="first_name_resd">
+                                                    </div>
+                                                    <div class="form-group col-sm-5">
+                                                        <label for="title">*LAST NAME</label>
+                                                        <input class="form-control" type="text" required="" name="last_name" id="last_name_resd">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="title">*MOBILE NO</label>
+                                                        <input class="form-control" type="number" required="" name="mobile_no" id="mobile_no">
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="title">*EMAIL</label>
+                                                        <input class="form-control" type="email" required="" name="user_email" id="user_email">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="title">*GENDER</label>
+                                                        <select id="my_gender" class="form form-control" name="gender" required>
+                                                            <option value="" >SELECT GENDER</option>
+                                                            <option value="M">Male</option>
+                                                            <option value="F">Female</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-6">
+                                                        <label for="title">*ROLE</label>
+                                                        <select class="form form-control" name="role" id="role_select2" required>
+                                                            <option value="" >SELECT ROLE</option>
+                                                            <option value="4" id="security_select">Security</option>
+                                                            <option value="3" id="resident_select">Resident</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row" id="select_resident">
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="title">*STREET</label>
+                                                        <select id="id_street3" class="form form-control id_street1" required>
+                                                            <option value="" selected>Please create a street first</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="title">*BUILDING</label>
+                                                        &nbsp;&nbsp;&nbsp;<img id="loaderd" style="display:none" src="{% static 'site/asset/img/ajax-loader.gif' %}"><br>
+                                                        <select id="building_red" class="form form-control" required>
+                                                            
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-sm-4">
+                                                        <label for="title">*APARTMENT</label>
+                                                        &nbsp;&nbsp;&nbsp;<img id="loadere" style="display:none" src="{% static 'site/asset/img/ajax-loader.gif' %}"><br>
+                                                        <select id="apartment_red" class="form form-control" name="role" id="role_select" required>
+                                                            
+                                                        </select>
+                                                    </div>
+                                                    <div id="select_security">
+
+                                                    </div>
+                                                </div>
+                                                <div class="text-center mr-b-30 btn-list">
+                                                        <img id="loaderf" style="display:none" src="{% static 'site/asset/img/ajax-loader.gif' %}">
+                                                    <button id="addresident" class="toast-visitor btn btn-primary ripple" type="button" >Save Resident</button>
+                                                    
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% comment %} <div id="first_visit1" class="modal modal-primary fade bs-modal-lg-primary" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel2" aria-hidden="true" style="display: none">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header text-inverse">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h6 class="modal-title" id="myLargeModalLabel2">Hi {{user.first_name}}, Welcome to {{user.estate}}</h6>
+                            </div>
+                            <div class="modal-body">
+                                <p style="color:black !important">You will be able to setup and manage the estate in very few steps.
+                                Kindly follow through to the end.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="javascript:void(0)" id="site_tour" type="button" class="btn btn-primary btn-rounded ripple text-left" style="color:white !important">Take a Quick Tour</a>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div> {% endcomment %}
+            {% endif %}
+            <!-- /.widget-list -->
+{% endblock %}

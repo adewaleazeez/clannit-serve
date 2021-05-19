@@ -1,0 +1,215 @@
+{% extends "site/base.html" %}
+{% load static %}
+
+{% block content %}
+            <!-- Page Title Area -->
+            <div class="row page-title clearfix">
+                <div class="page-title-left">
+                    <h6 class="page-title-heading mr-0 mr-r-5">My Profile</h6>
+                </div>
+                <!-- /.page-title-left -->
+                <div class="page-title-right d-none d-sm-inline-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Your Profile</li>
+                    </ol>
+                </div>
+                <!-- /.page-title-right -->
+            </div>
+            <!-- /.page-title -->
+            <!-- =================================== -->
+            <!-- Different data widgets ============ -->
+            <!-- =================================== -->
+            <div class="widget-list">
+                <div class="row">
+                    <!-- User Summary -->
+                    <div class="col-12 col-md-4 widget-holder widget-full-content">
+                        <div class="widget-bg">
+                            <div class="widget-body clearfix">
+                                <div class="widget-user-profile">
+                                    <figure class="profile-wall-img">
+                                        <img src="{% static 'site/asset/demo/user-widget-bg.jpeg' %}" alt="User Wall">
+                                    </figure>
+                                    <div class="profile-body">
+                                        <figure class="profile-user-avatar thumb-md">
+                                            <img src="{{user.image.url}}" alt="User Wall">
+                                        </figure>
+                                            <h6 class="h3 profile-user-name">{{user.first_name}} {{user.last_name}}</h6><small class="profile-user-address">{{user.state}}, {{user.country}}</small>
+                                        <hr class="profile-seperator">
+                                        <div class="profile-user-description mb-4">
+                                            <p>{{user.notes}}</p>
+                                            <a href="#" class="heading-font-family color-primary fs-12 fw-700">{{user.role}}</a>
+                                        </div>
+                                        <!-- /.profile-user-description -->
+                                        <div class="mb-5"><a href="#" data-toggle="modal" data-target="#edit_profile" class="btn btn-outline-primary btn-rounded btn-lg px-5 border-thick text-uppercase mr-2 mr-0-rtl ml-2-rtl fw-700 fs-11 heading-font-family">Edit Profile</a>
+                                        </div>
+                                    </div>
+                                    <!-- /.d-flex -->
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.widget-user-profile -->
+                            </div>
+                            <!-- /.widget-body -->
+                        </div>
+                        <!-- /.widget-bg -->
+                    </div>
+                    <!-- /.widget-holder -->
+                    <!-- Tabs Content -->
+                    <div class="col-12 col-md-8 mr-b-30">
+                        <ul class="nav nav-tabs contact-details-tab">
+                            <li class="nav-item"><a href="page-profile.html#profile-tab-bordered-1" class="nav-link active" data-toggle="tab">My Profile</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <!-- /.tab-pane -->
+                            <div role="tabpanel" class="tab-pane active" id="profile-tab-bordered-1" aria-expanded="true">
+                                <div class="contact-details-profile">
+                                    <h5 class="mr-b-20">Personal Profile</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="contact-details-cell"><small class="heading-font-family fw-500">Full name</small>  <span>{{user.first_name}} {{user.last_name}}</span>
+                                            </div>
+                                            <!-- /.contact-details-cell -->
+                                        </div>
+                                        <!-- /.col-md-6 -->
+                                        <div class="col-md-6">
+                                            <div class="contact-details-cell"><small class="heading-font-family fw-500">Email Address</small>  <span>{{user.email}}</span>
+                                            </div>
+                                            <!-- /.contact-details-cell -->
+                                        </div>
+                                        <!-- /.col-md-6 -->
+                                        <div class="col-md-6">
+                                            <div class="contact-details-cell"><small class="heading-font-family fw-500">Contact Number</small>  <span>{{user.mobile_number}}</span>
+                                            </div>
+                                            <!-- /.contact-details-cell -->
+                                        </div>
+                                        <!-- /.col-md-6 -->
+                                        <div class="col-md-6">
+                                            <div class="contact-details-cell"><small class="heading-font-family fw-500">Role</small>  <span>{{user.role}}</span>
+                                            </div>
+                                            <!-- /.contact-details-cell -->
+                                        </div>
+                                        <!-- /.col-md-6 -->
+                                    </div>
+                                    <!-- /.row -->
+                                    <hr>
+                                    <h5 class="mr-b-20">Additional Information</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {% if user.gender == 'M' %}
+                                            <div class="contact-details-cell"><small class="heading-font-family fw-500">Gender</small>  <span>Male</span>
+                                            {% else %}
+                                                <div class="contact-details-cell"><small class="heading-font-family fw-500">Gender</small>  <span>Female</span>
+                                            {% endif %}
+
+                                            </div>
+                                            <!-- /.contact-details-cell -->
+                                        </div>
+                                        <!-- /.col-md-6 -->
+                                        <div class="col-md-6">
+                                            <div class="contact-details-cell"><small class="heading-font-family fw-500">Date of Birth</small>  <span>{{user.date_of_birth}}</span>
+                                            </div>
+                                            <!-- /.contact-details-cell -->
+                                        </div>
+                                        <!-- /.col-md-6 -->
+                                        <div class="col-md-6">
+                                            <div class="contact-details-cell"><small class="heading-font-family fw-500 w-25 align-self-start">Flat Number</small>
+                                                <p class="flex-1">{{user.flat_number}}</p>
+                                            </div>
+                                            <!-- /.contact-details-cell -->
+                                        </div>
+                                            <div class="col-md-6">
+                                            <div class="contact-details-cell"><small class="heading-font-family fw-500 w-25 align-self-start">Address</small>
+                                                <p class="flex-1">{{user.address}}</p>
+                                            </div>
+                                            <!-- /.contact-details-cell -->
+                                        </div>
+                                        <!-- /.col-md-12 -->
+                                        <div class="col-md-12">
+                                            <div class="contact-details-cell"><small class="heading-font-family fw-500 w-25 align-self-start">Notes</small>
+                                                <p class="flex-1">{{user.notes}}</p>
+                                            </div>
+                                            <!-- /.contact-details-cell -->
+                                        </div>
+                                            <div class="col-md-12">
+                                            <div class="contact-details-cell"><small class="heading-font-family fw-500 w-25 align-self-start">Estate</small>
+                                                <p class="flex-1">{{user.estate}}</p>
+                                            </div>
+                                            <!-- /.contact-details-cell -->
+                                        </div>
+                                        <!-- /.col-md-12 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.contact-details-profile -->
+                                <hr class="mr-tb-30">
+
+                                <!-- /.row -->
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                    <!-- /.col-sm-8 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.widget-list -->
+
+                <!--Modal for Edit Profile-->
+                <!--Modal for Vistor Invite-->
+<div id="edit_profile" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <div class="modal-body">
+                                            <div class="text-center my-3"><a href="ui-modals.html#"><span><img src="http://wiseowl.dharansh.in/default/assets/demo/logo-expand-dark.png" alt=""></span></a>
+                                            </div>
+                                            <p align="center">EDIT PROFILE</p>
+                                            <form method="POST" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label for="username">First Name</label>
+                                                    <input class="form-control" type="text" id="username" name="first_name"  value="{{user.first_name}}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="emailaddress">Last Name</label>
+                                                    <input class="form-control" type="text" id="emailaddress" name="last_name"  value="{{user.last_name}}">
+                                                </div>
+                                                <div class="form-group mr-b-30">
+                                                    <label for="password">Profile Picture</label>
+                                                    <input class="form-control" type="file" name="image" >
+                                                </div>
+                                                <div class="form-group">
+                                        <label class="form-control-label">Gender</label>
+                                        <select name="gender" class="form-control select2-hidden-accessible" data-toggle="select2" data-plugin-options="{&quot;minimumResultsForSearch&quot;: -1}" tabindex="-1" aria-hidden="true">
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                        </select>
+                                                </div>
+                                                <div class="form-group input-has-value">
+                                        <label class="form-control-label">Date of Birth</label>
+                                        <div class="input-group input-has-value">
+                                            <input class="form-control datepicker" name=date_of_birth value="{{user.date_of_birth|date:'Y-m-d'}}" type="text"> <span class="input-group-addon"><i class="list-icon material-icons">date_range</i></span>
+                                        </div>
+                                        <!-- /.input-group -->
+                                    </div>
+                                                <div class="form-group">
+                                                    <label for="username">Notes</label>
+                                                    <textarea name="notes" class="form form-control" id="" cols="30" rows="10">{{user.notes}}</textarea>
+                                                </div>
+
+                                                <div class="text-center mr-b-30 btn-list">
+                                                    <button class="toast-success btn btn-rounded btn-success ripple" type="submit" >UPDATE PROFILE</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+
+
+{% endblock %}

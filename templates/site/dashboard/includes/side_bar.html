@@ -1,0 +1,437 @@
+{% load static %}
+
+{% if user.role.pk == 1 %}
+<!--ESTATE MANAGER-->
+<aside class="site-sidebar scrollbar-enabled" data-suppress-scroll-x="true">
+    <!-- User Details -->
+    <div class="side-user d-none">
+        <div class="col-sm-12 text-center p-0 clearfix">
+            <div class="d-inline-block pos-relative mr-b-10">
+                <figure class="thumb-sm mr-b-0 user--online">
+                    <img src="{{user.image.url}}" class="rounded-circle" alt="">
+                </figure><a href="#" class="text-muted side-user-link"><i class="feather feather-settings list-icon"></i></a>
+            </div>
+            <!-- /.d-inline-block -->
+            <div class="lh-14 mr-t-5"><a href="" class="hide-menu mt-3 mb-0 side-user-heading fw-500">Scott Adams</a>
+                <br><small class="hide-menu">Developer</small>
+            </div>
+        </div> 
+        <!-- /.col-sm-12 -->
+    </div>
+    <!-- /.side-user -->
+    <!-- Call to Action -->
+    <!-- <div class="side-content mr-t-30 mr-lr-15"><a class="btn btn-block btn-danger ripple fw-600" href=""><i class="fa fa-plus-square-o mr-1 mr-0-rtl ml-1-rtl"></i>Alert Emergency</a>
+    </div> -->
+    <!-- Sidebar Menu -->
+    <nav class="sidebar-nav">
+        <ul class="nav in side-menu">
+            <li class="current-page "><a href="{% url 'site_mgt:estate_manager_dashboard' %}"><i class="list-icon feather feather-command"></i> <span class="hide-menu">Dashboard</span></a>
+            </li>
+            <li data-intro="Estate estate" class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-clipboard"></i> <span class="hide-menu">My Estate</span></a>
+                <ul class="list-unstyled sub-menu">
+                    {% if user.is_superuser == 1 %}
+                    <li><a href="{% url 'site_mgt:my_estates' %}">My Estate</a>
+                    </li>
+                    <li><a href="{% url 'site_mgt:my_streets' %}">Streets</a>
+                    </li>
+                    <li><a href="{% url 'site_mgt:my_buildings' %}">Buildings</a>
+                    </li>
+                    <li><a href="{% url 'site_mgt:my_apartments' %}">Apartments</a>
+                    </li>
+                    <li><a href="{% url 'site_mgt:salutation' %}">Salutations</a>
+                    </li>
+                    {%else%}
+                    <li><a href="{% url 'site_mgt:my_streets' %}">Streets</a>
+                    </li>
+                    <li><a href="{% url 'site_mgt:my_buildings' %}">Buildings</a>
+                    </li>
+                    <li><a href="{% url 'site_mgt:my_apartments' %}">Apartments</a>
+                    </li>
+                    <li><a href="{% url 'site_mgt:salutation' %}">Salutations</a>
+                    </li>
+                    {%endif%}
+                </ul>
+            </li>
+            <li data-intro="Create residents" class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-folder"></i> <span class="hide-menu">Residents</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="{% url 'site_mgt:add_member' %}">Add Resident</a>
+                    </li>
+                    <li><a href="{% url 'site_mgt:estate_members' %}">All Residents</a>
+                    </li>
+                    <li><a href="#">Active Residents</a>
+                    </li>
+                    <li><a href="#">Blocked Residents</a>
+                    </li>
+                    <li><a href="#">Approve Resident(s)</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-feather"></i> <span class="hide-menu">Incidents</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="#">Report Emergency</a>
+                    </li>
+                    <li><a href="#">Estate logs</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-layout"></i> <span class="hide-menu">Utilities</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="#">Rent</a>
+                    </li>
+                    <li><a href="#">Electricity</a>
+                    </li>
+                    <li><a href="#">Water</a>
+                    </li>
+                    <li><a href="#">Sewage</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-pie-chart"></i> <span class="hide-menu">News</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="#">Forum</a>
+                    </li>
+                    <li><a href="#">News Updates</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li data-intro="Edit profile" class="menu-item-has-children "><a href="javascript:void(0);"><i class="list-icon feather feather-user"></i> <span class="hide-menu">Profile</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="{% url 'site_mgt:profile' %}">View Profile</a>
+                    </li>
+                    <li><a href="#" data-toggle="modal" data-target="#create_visit">Change Password</a>
+                </ul>
+            </li>
+            <li class=""><a href="{% url 'user:logout' %}"><i class="list-icon feather feather-power"></i> <span class="hide-menu">Logout</span></a>
+            </li>
+            
+        </ul>
+        <!-- /.side-menu -->
+    </nav>
+    <!-- /.sidebar-nav -->
+</aside>
+
+<!--Modal for Visitor Invite-->
+<div id="create_invite" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <div class="modal-body">
+                <div class="text-center my-3"><a href="ui-modals.html#"><span><img src="http://wiseowl.dharansh.in/default/assets/demo/logo-expand-dark.png" alt=""></span></a>
+                </div>
+                <p align="center">Please Fill in the Following details</p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">*Visitors First Name</label>
+                        <input class="form-control" type="text" id="username" name="vistor_first_name" required="" placeholder="John">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailaddress">*Visitors Last Name</label>
+                        <input class="form-control" type="text" id="emailaddress" name="vistor_last_name" required="" placeholder="emeka">
+                    </div>
+                    <div class="form-group mr-b-30">
+                        <label for="password">*Mobile Number</label>
+                        <input class="form-control" type="text" required="" name="vistor_mobile_number" id="password" placeholder="070xxxxxxxx">
+                    </div>
+
+                    <div class="text-center mr-b-30 btn-list">
+                        <button class="toast-visitor btn btn-rounded btn-success ripple" type="submit" >SEND INVITE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+{% else %}
+{% if user.role.pk == 2 %}
+<!--LANDLORD-->
+<aside class="site-sidebar scrollbar-enabled" data-suppress-scroll-x="true">
+    <!-- User Details -->
+    <div class="side-user d-none">
+        <div class="col-sm-12 text-center p-0 clearfix">
+            <div class="d-inline-block pos-relative mr-b-10">
+                <figure class="thumb-sm mr-b-0 user--online">
+                    <img src="{{user.image.url}}" class="rounded-circle" alt="">
+                </figure><a href="page-profile.html" class="text-muted side-user-link"><i class="feather feather-settings list-icon"></i></a>
+            </div>
+            <!-- /.d-inline-block -->
+            <div class="lh-14 mr-t-5"><a href="page-profile.html" class="hide-menu mt-3 mb-0 side-user-heading fw-500">Scott Adams</a>
+                <br><small class="hide-menu">Developer</small>
+            </div>
+        </div>
+        <!-- /.col-sm-12 -->
+    </div>
+    <!-- /.side-user -->
+    <!-- Call to Action -->
+    <!-- <div class="side-content mr-t-30 mr-lr-15"><a class="btn btn-block btn-danger ripple fw-600" href=""><i class="fa fa-plus-square-o mr-1 mr-0-rtl ml-1-rtl"></i>Alert Emergency</a>
+    </div> -->
+    <!-- Sidebar Menu -->
+    <nav class="sidebar-nav">
+        <ul class="nav in side-menu">
+            <li class="current-page" style="color:black !important"><a href="{% url 'site_mgt:dashboard' %}"><i class="list-icon feather feather-command"></i> <span class="hide-menu">Dashboard</span></a>
+
+            </li>
+            <li class="menu-item-has-children "><a href="javascript:void(0);"><i class="list-icon feather feather-user"></i> <span class="hide-menu">Profile</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="http://wiseowl.dharansh.in/default/page-profile.html">View Profile</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/page-login.html">Change Password</a>
+
+                </ul>
+            </li>
+            <li class="menu-item-has-children "><a href="javascript:void(0);"><i class="list-icon feather feather-briefcase"></i> <span class="hide-menu">Visitors</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="http://wiseowl.dharansh.in/default/app-calender.html">Create Invite</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/app-chat.html">Visitor History</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/app-inbox.html">Estate log</a>
+                    </li>
+
+                    </li>
+                </ul>
+            </li>
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-folder"></i> <span class="hide-menu">Users</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="page-blank.html">Create User</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/page-lightbox.html">All Residents</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/page-sitemap.html">Active Residents</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/page-search-results.html">Blocked Residents</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/page-custom-scroll.html">Approve Resident(s)</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-feather"></i> <span class="hide-menu">Incidents</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="http://wiseowl.dharansh.in/default/ui-typography.html">Report Emergency</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/ui-tabs.html">Estate logs</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-layout"></i> <span class="hide-menu">Utilities</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="http://wiseowl.dharansh.in/default/form-elements.html">Rent</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/form-material.html">Electricity</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/form-validation.html">Water</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/form-dropzone.html">Sewage</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-pie-chart"></i> <span class="hide-menu">News</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="http://wiseowl.dharansh.in/default/charts-flot.html">Forum</a>
+                    </li>
+                    <li><a href="http://wiseowl.dharansh.in/default/charts-morris.html">News Updates</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class=""><a href="{% url 'user:logout' %}"><i class="list-icon feather feather-power"></i> <span class="hide-menu">Logout</span></a>
+            </li>
+        </ul>
+        <!-- /.side-menu -->
+    </nav>
+    <!-- /.sidebar-nav -->
+</aside>
+
+{% else %}
+{% if user.role.pk == 3 %}
+<!--TENANT-->
+<aside class="site-sidebar scrollbar-enabled" data-suppress-scroll-x="true">
+    <!-- User Details -->
+    <div class="side-user d-none">
+        <div class="col-sm-12 text-center p-0 clearfix">
+            <div class="d-inline-block pos-relative mr-b-10">
+                <figure class="thumb-sm mr-b-0 user--online">
+                    <img src="{{user.image.url}}" class="rounded-circle" alt="">
+                </figure><a href="#" class="text-muted side-user-link"><i class="feather feather-settings list-icon"></i></a>
+            </div>
+            <!-- /.d-inline-block -->
+            <div class="lh-14 mr-t-5"><a href="page-profile.html" class="hide-menu mt-3 mb-0 side-user-heading fw-500">Scott Adams</a>
+                <br><small class="hide-menu">Developer</small>
+            </div>
+        </div>
+        <!-- /.col-sm-12 -->
+    </div>
+    <!-- /.side-user -->
+    <!-- Call to Action -->
+    <!-- <div class="side-content mr-t-30 mr-lr-15"><a class="btn btn-block btn-danger ripple fw-600" href=""><i class="fa fa-plus-square-o mr-1 mr-0-rtl ml-1-rtl"></i>Alert Emergency</a>
+    </div> -->
+    <!-- Sidebar Menu -->
+    <nav class="sidebar-nav">
+        <ul class="nav in side-menu">
+            <li class="current-page "><a href="{% url 'site_mgt:tenant_dashboard' %}"><i class="list-icon feather feather-command"></i> <span class="hide-menu">Dashboard</span></a>
+
+            </li>
+            <li class="menu-item-has-children "><a href="javascript:void(0);"><i class="list-icon feather feather-user"></i> <span class="hide-menu">Profile</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="{% url 'site_mgt:profile' %}">View Profile</a>
+                    </li>
+                    <li><a href="#" data-toggle="modal" data-target="#create_visit">Change Password</a>
+
+                </ul>
+            </li>
+            <li class="menu-item-has-children "><a href="javascript:void(0);"><i class="list-icon feather feather-briefcase"></i> <span class="hide-menu">Visitors</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#create_invite">Create Invite</a>
+                    </li>
+                    <li><a href="{% url 'site_mgt:visitor_log' %}">Visitor History</a>
+                    </li>
+
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-feather"></i> <span class="hide-menu">Incidents</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="#">Report Emergency</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-layout"></i> <span class="hide-menu">Utilities</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="#">Rent</a>
+                    </li>
+                    <li><a href="#">Electricity</a>
+                    </li>
+                    <li><a href="#">Water</a>
+                    </li>
+                    <li><a href="#">Sewage</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-pie-chart"></i> <span class="hide-menu">News</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="#">Forum</a>
+                    </li>
+                    <li><a href="#">News Updates</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class=""><a href="{% url 'user:logout' %}"><i class="list-icon feather feather-power"></i> <span class="hide-menu">Logout</span></a>
+            </li>
+        </ul>
+        <!-- /.side-menu -->
+    </nav>
+    <!-- /.sidebar-nav -->
+</aside>
+
+<!--Modal for Visitor Invite-->
+<div id="create_invite" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <div class="modal-body">
+                <div class="text-center my-3"><a href="ui-modals.html#"><span><img src="http://wiseowl.dharansh.in/default/assets/demo/logo-expand-dark.png" alt=""></span></a>
+                </div>
+                <p align="center">Please Fill in the Following details</p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">*Visitors First Name</label>
+                        <input class="form-control" type="text" id="username" name="vistor_first_name" required="" placeholder="John">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailaddress">*Visitors Last Name</label>
+                        <input class="form-control" type="text" id="emailaddress" name="vistor_last_name" required="" placeholder="emeka">
+                    </div>
+                    <div class="form-group mr-b-30">
+                        <label for="password">*Mobile Number</label>
+                        <input class="form-control" type="text" required="" name="vistor_mobile_number" id="password" placeholder="070xxxxxxxx">
+                    </div>
+
+                    <div class="text-center mr-b-30 btn-list">
+                        <button class="toast-visitor btn btn-rounded btn-success ripple" type="submit" >SEND INVITE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+{% else %}
+{% if user.role.pk == 4 %}
+
+<!--SECURITY-->
+<aside class="site-sidebar scrollbar-enabled" data-suppress-scroll-x="true">
+    <!-- User Details -->
+    <div class="side-user d-none">
+        <div class="col-sm-12 text-center p-0 clearfix">
+            <div class="d-inline-block pos-relative mr-b-10">
+                <figure class="thumb-sm mr-b-0 user--online">
+                    <img src="{{user.image.url}}" class="rounded-circle" alt="">
+                </figure><a href="#" class="text-muted side-user-link"><i class="feather feather-settings list-icon"></i></a>
+            </div>
+            <!-- /.d-inline-block -->
+            <div class="lh-14 mr-t-5"><a href="page-profile.html" class="hide-menu mt-3 mb-0 side-user-heading fw-500">Scott Adams</a>
+                <br><small class="hide-menu">Developer</small>
+            </div>
+        </div>
+        <!-- /.col-sm-12 -->
+    </div>
+    <!-- /.side-user -->
+    <!-- Call to Action -->
+    <!-- <div class="side-content mr-t-30 mr-lr-15"><a class="btn btn-block btn-danger ripple fw-600" href=""><i class="fa fa-plus-square-o mr-1 mr-0-rtl ml-1-rtl"></i>Alert Emergency</a>
+    </div> -->
+    <!-- Sidebar Menu -->
+    <nav class="sidebar-nav">
+        <ul class="nav in side-menu">
+            <li class="current-page "><a href="{% url 'site_mgt:security_dashboard' %}"><i class="list-icon feather feather-command"></i> <span class="hide-menu">Dashboard</span></a>
+
+            </li>
+            <li class="menu-item-has-children "><a href="javascript:void(0);"><i class="list-icon feather feather-user"></i> <span class="hide-menu">Profile</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="{% url 'site_mgt:profile' %}">View Profile</a>
+                    </li>
+                    <li><a href="#">Change Password</a>
+
+                </ul>
+            </li>
+
+            <li class="menu-item-has-children"><a href="javascript:void(0);"><i class="list-icon feather feather-pie-chart"></i> <span class="hide-menu">News</span></a>
+                <ul class="list-unstyled sub-menu">
+                    <li><a href="#">Forum</a>
+                    </li>
+                    <li><a href="#">News Updates</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class=""><a href="{% url 'user:logout' %}"><i class="list-icon feather feather-power"></i> <span class="hide-menu">Logout</span></a>
+            </li>
+        </ul>
+        <!-- /.side-menu -->
+    </nav>
+    <!-- /.sidebar-nav -->
+</aside>
+
+{% endif %}
+
+{% endif %}
+
+{% endif %}
+
+{% endif %}
+

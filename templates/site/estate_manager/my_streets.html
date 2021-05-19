@@ -1,0 +1,111 @@
+{% extends "site/base.html" %}
+{% load static %}
+
+{% block content %}
+<!--DashBoard Filler-->
+            <!-- Page Title Area -->
+            <div class="row page-title clearfix">
+                <div class="page-title-left">
+                    <h6 class="page-title-heading mr-0 mr-r-5">{{user.estate}}</h6>
+                    <p class="page-title-description mr-0 d-none d-md-inline-block">| Estate Admin Dashboard</p>
+                </div>
+                <!-- /.page-title-left -->
+                <div class="page-title-right d-none d-sm-inline-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Home</li>
+                    </ol>
+                </div> 
+                <!-- /.page-title-right -->
+            </div>
+            <!-- /.page-title -->
+            <!-- =================================== -->
+            <!-- Street Table -->
+            <div class="col-md-12 widget-holder">
+                <div class="widget-bg">
+                    <div class="row page-title clearfix">
+                        <div class="widget-heading clearfix" align="left">
+                            <h5>Streets</h5>
+                        </div>
+                        <div class="widget-heading clearfix" align="right">
+                            <a href="#" data-toggle="modal" data-target="#create_street"><button class="btn btn-xs btn-primary ripple"><i class="material-icons list-icon">perm_identity</i> <span>Add Street</span>
+                             </button></a>
+                        </div>
+                    </div>
+                    {%if suc_msg == False %}
+                    <div align="center" class="alert alert-danger">
+                        <p style="color:crimson !important">Street already exists</p>
+                    </div>
+                    {%endif%}
+                    <!-- /.widget-heading -->
+                    <div class="widget-body clearfix">
+                        <!--<table class="table" data-toggle="table" data-click-to-select="true" data-url="assets/js/bootstrap-table/bootstrap-table.json">-->
+                        <table class="table table-editable table-responsive" data-toggle="datatables">
+                            <thead>
+                                <tr>
+                                    <th data-field="state" data-radio="true">S/N</th>
+                                    <th data-field="forks_count">Estate Name</th>
+                                    <th data-field="stargazers_count">Street Name</th>
+                                    <th data-field="name">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if streets %}
+                                    {%for street, count in streets%}
+                                    <tr>
+                                        <td>{{count}}</td>
+                                        <td>{{street.estate}}</td>
+                                        <td>{{street.street_name}}</td>
+                                        <td style="white-space: nowrap; width: 1%;">
+                                            <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+                                                <div class="btn-group btn-group-sm" style="float: none;">
+                                                    <a href="{% url 'site_mgt:update_street' pk=street.street_id %}"><button type="button" class="btn btn-sm btn-primary" style="float: none;"><span class="glyphicon glyphicon-pencil"></span></button></a>
+                                                    <a onclick="return confirm_click();" class="del_but" href="{% url 'site_mgt:delete_street' pk=street.street_id %}"><button type="button" class="btn btn-sm btn-danger" style="float: none;"><span class="glyphicon glyphicon-trash"></span></button></a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.widget-body -->
+                </div>
+                <!-- /.widget-bg -->
+            </div>
+            <!-- /.widget-holder -->
+            <hr>
+
+            <!--Modal for Street Creation-->
+            <div id="create_street" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div class="modal-body">
+                            <p align="center">Fill New Street Details</p>
+                            <form method="POST">
+                                <!--{{form1.as_p}}-->
+                                {% csrf_token %}
+                                    <input class="form-control" type="hidden" id="estatename" name="initial_estate_id" disabled value="{{user.estate}}">
+                                    <input type="hidden" id="initial_estate_id" name="estate_id" value="{{user.estate.estate_id}}">
+                                <div class="form-group mr-b-30">
+                                    <label for="streetname">*Street Name</label>
+                                    <input class="form-control" type="text" required="" name="street_name" id="streetname">
+                                </div>
+
+                                <div class="text-center mr-b-30 btn-list">
+                                    <button class="toast-visitor btn btn-rounded btn-success ripple" type="submit" >CREATE STREET</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+            <!-- /.widget-list -->
+
+{% endblock %}

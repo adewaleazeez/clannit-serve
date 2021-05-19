@@ -1,0 +1,37 @@
+{% extends "site/base.html" %}
+{% load static %}
+
+{% block content %}
+<!--DashBoard Filler-->
+            <!-- Page Title Area -->
+            <div class="row page-title clearfix">
+                <div class="page-title-left">
+                    <h6 class="page-title-heading mr-0 mr-r-5">{{user.estate}}</h6>
+                    <p class="page-title-description mr-0 d-none d-md-inline-block">| Estate Admin Dashboard</p>
+                </div>
+                <!-- /.page-title-left -->
+                <div class="page-title-right d-none d-sm-inline-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Home</li>
+                    </ol>
+                </div>
+                <!-- /.page-title-right -->
+            </div>
+            <!-- /.page-title -->
+            <!-- =================================== -->
+            <!-- Different data widgets ============ -->
+            <form action="" method="post">
+                {% csrf_token %}
+                <table>
+                {{ form5.as_p }}
+                </table>
+                <input type="submit" value="Submit" />
+
+            </form>
+
+
+
+
+{% endblock %}

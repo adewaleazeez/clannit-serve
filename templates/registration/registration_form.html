@@ -1,0 +1,133 @@
+{% extends "registration/base.html" %}
+{% load widget_tweaks %}
+
+{% block slider %}
+            <div class="steps-tab clearfix" data-target="#multi-step-signup">
+            <ul class="list-unstyled list-inline text-center mt-4">
+                <li class="list-inline-item active"><a href="#"><span class="step">1</span> Account Setup</a>
+                </li>
+                <li class="list-inline-item"><a href="#"><span class="step">2</span>Residential Details</a>
+                </li>
+                <li class="list-inline-item"><a href="#"><span class="step">3</span> Personal Details</a>
+                </li>
+            </ul>
+        </div>
+{% endblock %}
+
+{% block content %}
+        <!-- 3 Step Navigation -->
+
+        <!-- /.step-tabs -->
+        <!-- Register Form -->
+        <!-- <div class="col-12 col-sm-6 col-md-4 ml-md-auto login-center mx-auto">
+            <form id="multi-step-signup"  method="post"  class="multi-step-form overflow-hidden">
+                {% csrf_token %}
+                <fieldset id="signup-step-1" class="form-material active animated fadeInRight">
+                    <h6 class="text-uppercase">Register Now</h6>
+                    <p class="text-muted">Create your account for free and enjoy.</p>
+                    <div class="form" align="left">
+                        <label>*First Name</label>
+                        {{form.first_name|add_class:"form form-control"}}
+                    </div>
+                    <div class="form" align="left">
+                        <label>Last Name</label>
+                        {{form.last_name|add_class:"form form-control"}}
+                    </div>
+                    <div class="form" align="left">
+                        <label>*Email</label>
+                        {{form.email|add_class:"form form-control"}}
+                    </div>
+                    <div class="form" align="left">
+                        <label>Mobile Number</label>
+                        {{form.mobile_number|add_class:"form form-control"|attr:"placeholder:070xxxxxxxx"}}
+                    </div>
+                    <div class="form" align="left">
+                        <label>Select Estate</label>
+                        {{form.estate|add_class:"form form-control"}}
+
+                    </div>
+                    <div class="form" align="left">
+                        <label>*Password</label>
+                        {{form.password1|add_class:"form form-control"}}
+                    </div>
+                    <div class="form" align="left">
+                        <label>*Confirm Password</label>
+                        {{form.password2|add_class:"form form-control"}}
+                    </div>
+                    <div class="checkbox checkbox-primary">
+                        <label>
+                            <input type="checkbox" required> <span class="label-text">I agree to all <a href="#">Terms &amp; Conditions</a></span>
+                        </label>
+                    </div>
+                    <div class="form" align="left">
+                        <button type="submit"  class="btn btn-primary btn-block ripple">Submit</button>
+                    </div>
+                </fieldset>
+                <fieldset>
+                        {{form.username.as_hidden}}
+                        {{form.flat_number.as_hidden}}
+                        {{form.address.as_hidden}}
+                        {{form.gender.as_hidden}}
+                </fieldset>
+            </form>
+        </div> -->
+        <!-- /.login-center -->
+        <!-- Register Form -->
+        <div class="col-12 col-sm-6 col-md-4 ml-md-auto login-center mx-auto">
+            <form id="registrationForm" class="multi-step-form overflow-hidden" action="javascript:void(0)" method="post">
+                {% csrf_token %}
+                <fieldset id="signup-step-1" class="form-material active animated fadeInRight">
+                    <h6 style="color:black !important" class="text-uppercase">Register Now</h6>
+                    <p class="text-muted" style="color:black !important">Please Fill Out Form</p>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="First Name" id="firstName">
+                        <label style="color:black !important">First Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Last Name" id="lastName">
+                        <label style="color:black !important">Last Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Email" id="email">
+                        <label style="color:black !important">Email</label>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Phone Number" id="phoneNumber">
+                        <label style="color:black !important">Phone Number</label> 
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block ripple next-btn">Next</button>
+                    </div>
+                </fieldset>
+                <fieldset id="signup-step-2" class="form-material animated fadeInRight">
+                    <h6 class="text-uppercase">Estate Details</h6>
+                    <p class="text-muted" style="color:black !important">Please Fill Out Form</p>
+                    <div class="form-group no-gutters">
+                        <input class="form-control" type="text" placeholder="Estate Name" id="estateName">
+                        <label style="color:black !important">Estate Name</label>
+                    </div>
+                    <div class="form-group no-gutters">
+                        <input class="form-control" type="text" placeholder="Address" id="address">
+                        <label style="color:black !important">Address</label>
+                    </div>
+                    <div class="form-group no-gutters">
+                        <input class="form-control" type="text" placeholder="City" id="city">
+                        <label style="color:black !important">City</label>
+                    </div>
+                    <div class="form-group no-gutters">
+                    <input class="form-control" type="text" placeholder="State" id="state">
+                        <label style="color:black !important">State</label>
+                    </div>
+                    <div class="form-group row text-center">
+                        <div class="col-6">
+                            <button class="btn btn-primary btn-block ripple prev-btn">Previous</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-primary btn-block ripple" id="subbtn" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+{% endblock %}
+

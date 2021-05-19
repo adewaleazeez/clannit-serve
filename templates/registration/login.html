@@ -1,0 +1,57 @@
+{% extends "registration/base.html" %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+{% if user.is_authenticated and user.is_active == False %}
+    <div align="center" class="alert alert-danger">
+                <strong >This account is currently disabled.</strong>
+            </div>
+{% endif %}
+
+
+   <form method="POST">
+       {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div align="center" class="alert alert-danger">
+            <ul>
+            {% for error in form.non_field_errors %}
+                <li>{{ error|escape }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <label for="example-email" style="color:black !important">Email</label>
+            {{form.username|add_class:"form-control"}}
+        </div>
+        <div class="form-group">
+            <label for="example-password" style="color:black !important">Password</label>
+            {{form.password|add_class:"form-control"}}
+        </div>
+        <div class="form-group">
+                <input type="hidden" name="next" value="{{ next }}" />
+            <button type="submit" class="btn btn-block btn-lg btn-primary text-uppercase fs-12 fw-600" type="button">Login</button>
+        </div>
+        <div class="form-group no-gutters mb-0">
+            <div class="col-md-12 d-flex text-center">
+                <a href="{% url 'auth_password_reset' %}" id="to-recover" class="my-auto pb-2 text-right"><i class="material-icons mr-2 fs-18"></i> Forgot Password?</a>
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.form-group -->
+    </form>
+
+    <!-- /.btn-list -->
+    <footer class="col-sm-12 text-center">
+        <hr>
+        <!-- <p style="color:black !important">Don't have  an account? <a href="{https://clanit.herokuapp.com/}" class="text-primary m-l-5"><b>Sign Up</b></a>
+        </p> -->
+        <p style="color:black !important">Don't have  an account? <a href="{% url 'user:register' %}" class="text-primary m-l-5"><b>Sign Up</b></a>
+        </p>
+        
+    </footer>
+{% endblock %}
+
+
+

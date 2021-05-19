@@ -1,0 +1,112 @@
+{% extends "site/base.html" %}
+{% load static %}
+
+{% block content %}
+<!--DashBoard Filler-->
+            <!-- Page Title Area -->
+            <div class="row page-title clearfix">
+                <div class="page-title-left">
+                    <h6 class="page-title-heading mr-0 mr-r-5">{{user.estate}}</h6>
+                    <p class="page-title-description mr-0 d-none d-md-inline-block">| Estate Admin Dashboard</p>
+                </div>
+                <!-- /.page-title-left -->
+                <div class="page-title-right d-none d-sm-inline-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Home</li>
+                    </ol>
+                </div>
+                <!-- /.page-title-right -->
+            </div>
+            <!-- /.page-title -->
+            <!-- =================================== -->
+            <!-- Estates Table -->
+            <div class="col-md-12 widget-holder">
+                <div class="widget-bg">
+                    <div class="row page-title clearfix">
+                        <div class="widget-heading clearfix" align="left">
+                            <h5>Estates</h5>
+                        </div>
+                        <div class="widget-heading clearfix" align="right">
+
+                            <a href="#" data-toggle="modal" data-target="#create_estate"><button class="btn btn-xs btn-primary ripple"><i class="material-icons list-icon">perm_identity</i> <span>Add Estate</span>
+                             </button></a>
+                        </div>
+                        <div class="widget-heading clearfix" align="right">
+                            {%if request.user.is_superuser == 1%}
+                                <a href="{% url 'site_mgt:add_estate_manager' %}"><button class="btn btn-xs btn-primary ripple"><i class="material-icons list-icon">perm_identity</i> <span>Add Estate Manager</span>
+                             </button></a>
+                            {% else %}
+                            <a href="{% url 'site_mgt:add_member' %}"><button class="btn btn-xs btn-primary ripple"><i class="material-icons list-icon">perm_identity</i> <span>Add Estate Manager</span>
+                             </button></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- /.widget-heading -->
+                    <div class="widget-body clearfix">
+                        <!--<table class="table" data-toggle="table" data-click-to-select="true" data-url="assets/js/bootstrap-table/bootstrap-table.json">-->
+                        <table class="table table-editable table-responsive" data-toggle="datatables">
+                            <thead>
+                                <tr>
+                                    <th data-field="state" data-radio="true">S/N</th>
+                                    <th data-field="stargazers_count">Estate Name</th>
+                                    <th data-field="forks_count">Estate Address</th>
+                                    <th data-field="forks_count">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {%for estate, count in estates%}
+                                    <tr>
+                                        <td>{{count}}</td>
+                                        <td>{{estate.estate_name}}</td>
+                                        <td>{{estate.estate_address}}</td>
+                                        <td style="white-space: nowrap; width: 1%;">
+                                            <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+                                                <div class="btn-group btn-group-sm" style="float: none;">
+                                                    <a href="{% url 'site_mgt:update_estate' pk=estate.estate_id %}"><button type="button" class="btn btn-sm btn-primary" style="float: none;"><span class="glyphicon glyphicon-pencil"></span></button></a>
+                                                    <a href="{% url 'site_mgt:delete_estate' pk=estate.estate_id %}"><button type="button" class="btn btn-sm btn-danger" style="float: none;"><span class="glyphicon glyphicon-trash"></span></button></a>
+                                                </div>
+                                            </div>
+                                         </td>
+                                    </tr>
+                                    {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.widget-body -->
+                </div>
+                <!-- /.widget-bg -->
+            </div>
+            <!-- /.widget-holder -->
+            <hr>
+
+            <!--Modal for Estate Creation-->
+            <div id="create_estate" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div class="modal-body">
+                            <div class="text-center my-3"><a href="ui-modals.html#"><span><img src="http://wiseowl.dharansh.in/default/assets/demo/logo-expand-dark.png" alt=""></span></a>
+                            </div>
+                            <p align="center">Fill New Estate Details</p>
+                            <form method="POST">{% csrf_token %}
+                                <label>*ESTATE NAME</label>
+                                {{form.estate_name}}<br>
+                                <label>*ESTATE ADDRESS</label>
+                                {{form.estate_address}}<br>
+
+                                <div class="text-center mr-b-30 btn-list">
+                                    <button class="toast-visitor btn btn-rounded btn-success ripple" type="submit" >CREATE ESTATE</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+            <!-- /.widget-list -->
+
+{% endblock %}

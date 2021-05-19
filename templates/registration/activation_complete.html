@@ -1,0 +1,13 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<img src="{% static 'site/registration/assets/img/check.gif' %}" style="display:block; margin-left:auto; margin-right:auto; width:100%; height:50%;"  alt="">
+<p class='lead'>{% trans "Your account is now activated." %}</p>
+<p class='lead'>{% trans "You can now Login to your dashoard" %}</p>
+
+<div class="col-lg-12 m-t-20">
+   <p><a href="{% url 'auth_login' %}">Sign In</a></p>
+</div>
+{% endblock %}

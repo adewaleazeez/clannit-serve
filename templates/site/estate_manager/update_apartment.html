@@ -1,0 +1,54 @@
+{% extends "site/base.html" %}
+{% load static %}
+
+{% block content %}
+<!--DashBoard Filler-->
+            <!-- Page Title Area -->
+            <div class="row page-title clearfix">
+                <div class="page-title-left">
+                    <h6 class="page-title-heading mr-0 mr-r-5">{{user.estate}}</h6>
+                    <p class="page-title-description mr-0 d-none d-md-inline-block">| Estate Admin Dashboard</p>
+                </div>
+                <!-- /.page-title-left -->
+                <div class="page-title-right d-none d-sm-inline-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Home</li>
+                    </ol>
+                </div>
+                <!-- /.page-title-right -->
+            </div>
+            <!-- /.page-title -->
+            <!-- =================================== -->
+            <form method="POST">
+                <!--{{form3.as_p}}-->
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_street">*STREET</label>
+                    <select name="street" id="id_street" class="form-control" required>
+                            <option value="" selected>Select Street</option>
+                    {% for street in all_streets %}
+                        <option value="{{ street.street_id }}"> {{ street.street_name }} </option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="id_building">*BUILDING</label>
+                    <select name="building" class="form-control" required id="id_building">
+                        <option value="" selected>Select Building</option>
+                    </select>
+                </div>
+                <div class="form-group" id="apartment_id">
+                    <label for="id_building">*APARTMENT NUMBER</label>
+                        <input class="form-control" type="text" required="" name="apartment_number" id="id_apartment_number" value="{{apartment.apartment_number}}">
+                </div>
+                <div class="text-center mr-b-30 btn-list">
+                    <button class="toast-visitor btn btn-rounded btn-success ripple" type="submit" >SAVE APARTMENT</button>
+                </div>
+            </form>
+
+
+
+
+{% endblock %}

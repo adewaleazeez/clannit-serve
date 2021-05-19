@@ -1,0 +1,45 @@
+{% extends "site/base.html" %}
+
+{% block content %}
+ <div class="row">
+                    <div class="col-md-12 widget-holder">
+                        <div class="widget-bg">
+                            <div class="widget-heading clearfix">
+                                <h5>Estate Visitors for {{user.estate}}</h5>
+                            </div>
+                            <!-- /.widget-heading -->
+                            <div class="widget-body clearfix">
+                                <table class="table table-striped table-responsive" data-toggle="datatables">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Estate Resident Name</th>
+                                            <th>Visitors Name</th>
+                                            <th>Date Visited</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                            {% if visitor_log %}
+                                            {% for member, count in visitor_log %}
+                                            <tr>
+                                            <td>{{count}}</td>
+                                            <td>{{member.whom_to_see.first_name}} {{member.whom_to_see.last_name}}</td>
+                                            <td>{{member.vistor_first_name}} {{member.vistor_last_name}}</td>
+                                            <td>{{member.date_created}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.widget-body -->
+                        </div>
+                        <!-- /.widget-bg -->
+                    </div>
+                    <!-- /.widget-holder -->
+                </div>
+                <!-- /.row -->
+{% endblock %}

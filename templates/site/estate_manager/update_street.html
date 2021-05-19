@@ -1,0 +1,45 @@
+{% extends "site/base.html" %}
+{% load static %}
+
+{% block content %}
+<!--DashBoard Filler-->
+            <!-- Page Title Area -->
+            <div class="row page-title clearfix">
+                <div class="page-title-left">
+                    <h6 class="page-title-heading mr-0 mr-r-5">{{user.estate}}</h6>
+                    <p class="page-title-description mr-0 d-none d-md-inline-block">| Estate Admin Dashboard</p>
+                </div>
+                <!-- /.page-title-left -->
+                <div class="page-title-right d-none d-sm-inline-flex">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Home</li>
+                    </ol>
+                </div>
+                <!-- /.page-title-right -->
+            </div>
+            <!-- /.page-title -->
+            <!-- =================================== -->
+            <!-- Different data widgets ============ -->
+            <br>
+
+            <form method="POST">
+                <!--{{form1.as_p}}-->
+                {% csrf_token %}
+                    <input class="form-control" type="hidden" id="estatename" name="initial_estate_id" disabled value="{{user.estate}}">
+                    <input type="hidden" id="initial_estate_id" name="estate_id" value="{{user.estate.estate_id}}">
+                <div class="form-group mr-b-30">
+                    <label for="streetname">*Street Name</label>
+                    <input value="{{ street.street_name }}" class="form-control" type="text" required="" name="street_name" id="streetname">
+                </div>
+
+                <div class="text-center mr-b-30 btn-list">
+                    <button class="toast-visitor btn btn-rounded btn-success ripple" type="submit" >SAVE STREET</button>
+                </div>
+            </form>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+        <div class="row container align-items-center">
+            <div class="col-10 ml-sm-auto col-sm-6 col-md-4 ml-md-auto login-center login-center-mini mx-auto">
+                <!-- /.navbar-header -->
+                <div class="text-center mr-b-20">
+                    <img src="{% static 'site/registration/assets/img/success.png' %}" style="width:250px;" class="rounded-circle img-thumbnail thumb-lg" alt="">
+                </div>
+                <p class="text-center text-muted" style="color:#544848 !important;">We have sent an email to you.Your first password - which you must renew at first login - is within that email, as well as a link to download the Clannit Mobile App</p><a href="{% url 'auth_login' %}" class="btn btn-block btn-lg btn-primary mr-tb-30 text-uppercase fs-12 fw-600">Click Here to login</a>
+            </div>
+            <!-- /.login-center -->
+        </div>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "site/base.html" %}
+{% load static %}
+
+{% block content %}
+<!--DashBoard Filler-->
+    <!-- Page Title Area -->
+    <div class="row page-title clearfix">
+        <div class="page-title-left">
+            <h6 class="page-title-heading mr-0 mr-r-5">{{user.estate}}</h6>
+            <p class="page-title-description mr-0 d-none d-md-inline-block">| Estate Admin Dashboard</p>
+        </div>
+        <!-- /.page-title-left -->
+        <div class="page-title-right d-none d-sm-inline-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Home</li>
+            </ol>
+        </div>
+        <!-- /.page-title-right -->
+    </div>
+    <!-- /.page-title -->
+    <!-- =================================== -->
+    <!-- Different data widgets ============ -->
+    
+    <!-- <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_street">*STREET</label>
+            <select name="street" id="id_street" class="form-control" required>
+                <option value="" selected>Select Street Name</option>
+            {% for street in all_streets %}
+                <option value="{{ street.street_id }}"> {{ street.street_name }} </option>
+            {% endfor %}
+            </select>
+        </div>
+        <table>
+        {{ form5.as_p }}
+        </table>
+        <input type="submit" value="Submit" />
+
+    </form> -->
+    <form method="POST">{% csrf_token %}
+        <div class="form-group">
+            <label for="id_street">*STREET</label>
+            <select name="street" id="id_street" class="form-control" required>
+                <option value="{{ building.street_id }}" selected>{{ building.street }}</option>
+            {% for street in all_streets %}
+                <option value="{{ street.street_id }}"> {{ street.street_name }} </option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_building_number">*BUILDING NUMBER</label>
+            <input class="form-control" type="text" required="" value="{{ building.building_number }}" name="building_number" id="id_building_number">
+        </div>
+        <div class="form-group">
+            <label for="id_building_type">*BUILDING TYPE</label>
+            <select name="building_type" id="id_building_type" class="form-control" required>
+                <option value="" selected>Select Building Type</option>
+                <option value="1">Multi Tenancy</option>
+                <option value="0">Single Tenancy</option>
+            </select>
+        </div>
+
+        <div class="text-center mr-b-30 btn-list">
+            <button class="toast-visitor btn btn-rounded btn-success ripple" type="submit" >SAVE BUILDING</button>
+        </div>
+    </form>
+
+
+
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends "site/base.html" %}
+{% load staticfiles%}
+
+{% block content %}
+    <!--DashBoard Filler-->
+    <!-- Page Title Area -->
+    <div class="row page-title clearfix">
+        <div class="page-title-left">
+            <h6 class="page-title-heading mr-0 mr-r-5">{{user.estate}} (Estate)</h6>
+            <p class="page-title-description mr-0 d-none d-md-inline-block">| Estate Admin</p>
+        </div>
+        <!-- /.page-title-left -->
+        <div class="page-title-right d-none d-sm-inline-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'site_mgt:estate_manager_dashboard' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Residents</li>
+            </ol>
+        </div> 
+        <!-- /.page-title-right --> 
+    </div>
+    <!-- /.page-title -->
+    <!-- =================================== -->
+    <!-- Street Table -->
+    <div class="col-md-12 widget-holder">
+        <div class="widget-bg">
+            <div class="row page-title clearfix">
+                <div class="widget-heading clearfix" align="left">
+                    <h5>Residents</h5>
+                </div>
+                <div class="widget-heading clearfix" align="right">
+                    <a href="{% url 'site_mgt:add_member' %}"><button class="btn btn-xs btn-primary ripple"><i class="material-icons list-icon">perm_identity</i> <span>Add Residents</span>
+                        </button></a>
+                </div>
+            </div>
+            {%if suc_msg == False %}
+            <div align="center" class="alert alert-danger">
+                <p style="color:crimson !important">Resident already exists</p>
+            </div>
+            {%endif%}
+            <!-- /.widget-heading -->
+            <div class="widget-body clearfix">
+                <!--<table class="table" data-toggle="table" data-click-to-select="true" data-url="assets/js/bootstrap-table/bootstrap-table.json">-->
+                <table class="table table-editable table-responsive" data-toggle="datatables">
+                    <thead>
+                        <tr>
+                            <th data-field="state" data-radio="true">S/N</th>
+                            <th data-field="forks_count">Name</th>
+                            <th data-field="stargazers_count">Role</th>
+                            <th data-field="stargazers_count">Gender</th>
+                            <th data-field="stargazers_count">Estate</th>
+                            <th data-field="name">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if estate_members %}
+                        {% for member, count in estate_members %}
+                        <input id="user_id" value="{{member.user_id}}" type="hidden">
+                        <tr>
+                            <td>{{count}}</td>
+                            <td>{{member.first_name}} {{member.last_name}}</td>
+                            <td>{{member.role}}</td>
+                            <td>{{member.gender}}</td>
+                            <td>{{member.estate}}</td>
+                            <td style="white-space: nowrap; width: 1%;">
+                                <div class="tabledit-toolbar btn-toolbar" style="text-align: left;">
+                                    <div class="btn-group btn-group-sm" style="float: none;">
+                                            <a href="{% url 'site_mgt:update_resident' pk=member.user_id %}"><button type="button" class="btn btn-sm btn-primary" style="float: none;"><span class="glyphicon glyphicon-pencil"></span></button></a>
+                                            <a onclick="return confirm_click();" class="del_but" href="{% url 'site_mgt:delete_resident' pk=member.user_id %}"><button type="button" class="btn btn-sm btn-danger" style="float: none;"><span class="glyphicon glyphicon-trash"></span></button></a>
+                                    </div>
+                                </div>
+                            </td>
+                         </tr>
+                        {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.widget-body -->
+        </div>
+        <!-- /.widget-bg -->
+    </div>
+    <!-- /.widget-holder -->
+    <hr>
+
+    <!--Modal for Resident Edit-->
+    {% comment %} <div id="edit_resident" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <div class="modal-body">
+                    <p align="center">Edit Estate Resident</p>
+                    {% for member in estate_members %}
+                    <input type="hidden" required=""  id="my_user_id">
+                    <form method="POST">
+                        {% csrf_token %}<br>
+                        <p id="suc_msg4" style="display:none" align='center'></p><br>
+                        {% for user_edit in member.user_id ==  %}
+
+                        <div class="row">
+                            <div class="form-group col-sm-2">
+                                <label for="title">*TITLE</label>
+                                <select name="title" id="title_resd" class="form-control" required>
+                                    {% for title in all_titles %}
+                                    <option value="{{ title.title_name }}">{{ title.title_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label for="title">*FIRST NAME</label>
+                                <input class="form-control" type="text" required="" name="first_name" id="first_name_resd">
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label for="title">*LAST NAME</label>
+                                <input class="form-control" type="text" required="" name="last_name" id="last_name_resd">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for="title">*MOBILE NO:</label>
+                                <input class="form-control" type="number" required="" name="mobile_no" id="mobile_no">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="title">*EMAIL</label>
+                                <input class="form-control" type="email" required="" name="user_email" id="user_email">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for="title">*GENDER</label>
+                                <select id="my_gender" class="form form-control" name="gender" required>
+                                    <option value="" >SELECT GENDER</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="title">*ROLE</label>
+                                <select class="form form-control" name="role" id="role_select2" required>
+                                    <option value="" >SELECT ROLE</option>
+                                    <option value="4" id="security_select">Security</option>
+                                    <option value="3" id="resident_select">Resident</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" id="select_resident">
+                            <div class="form-group col-sm-4">
+                                <label for="title">*STREET</label>
+                                <select id="id_street3" class="form form-control id_street1" required>
+                                    <option value="" selected>Please create a street first</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="title">*BUILDING</label>
+                                &nbsp;&nbsp;&nbsp;<img id="loaderd" style="display:none" src="{% static 'site/asset/img/ajax-loader.gif' %}"><br>
+                                <select id="building_red" class="form form-control" required>
+                                    
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="title">*APARTMENT</label>
+                                &nbsp;&nbsp;&nbsp;<img id="loadere" style="display:none" src="{% static 'site/asset/img/ajax-loader.gif' %}"><br>
+                                <select id="apartment_red" class="form form-control" name="role" id="role_select" required>
+                                    
+                                </select>
+                            </div>
+                            <div id="select_security">
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="text-center mr-b-30 btn-list">
+                                <img id="loaderf" style="display:none" src="{% static 'site/asset/img/ajax-loader.gif' %}">
+                            <button id="addresident" class="toast-visitor btn btn-primary ripple" type="button" >Save Resident</button>
+                            
+                        </div>
+                    </form>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div> {% endcomment %}
+
+    <!-- /.widget-list -->
+{% endblock %}
